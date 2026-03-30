@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_smart_import_location_admin,smart.import.location.admin,model_smart_import_logistic_location,smart_import.group_smart_import_admin,1,1,1,1
+access_smart_import_location_logistics,smart.import.location.logistics,model_smart_import_logistic_location,smart_import.group_smart_import_logistics,1,0,0,0
+access_smart_import_location_sales,smart.import.location.sales,model_smart_import_logistic_location,smart_import.group_smart_import_sales,1,0,0,0

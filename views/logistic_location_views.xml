@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_smart_import_logistic_location" model="ir.actions.act_window">
+        <field name="name">Ubicaciones logísticas</field>
+        <field name="res_model">smart.import.logistic.location</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Vista lista -->
+    <record id="view_smart_import_logistic_location_tree" model="ir.ui.view">
+        <field name="name">smart.import.logistic.location.tree</field>
+        <field name="model">smart.import.logistic.location</field>
+        <field name="arch" type="xml">
+            <tree string="Ubicaciones logísticas">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="location_type"/>
+                <field name="city"/>
+                <field name="country_id"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

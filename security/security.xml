@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Categoría de seguridad -->
+    <record id="module_category_smart_import" model="ir.module.category">
+        <field name="name">SmartImport</field>
+        <field name="description">Gestión logística de importaciones y stock distribuido</field>
+        <field name="sequence">25</field>
+    </record>
+
+    <!-- Grupo administrador -->
+    <record id="group_smart_import_admin" model="res.groups">
+        <field name="name">Administrador SmartImport</field>
+        <field name="category_id" ref="smart_import.module_category_smart_import"/>
+    </record>
+
+    <!-- Grupo logístico -->
+    <record id="group_smart_import_logistics" model="res.groups">
+        <field name="name">Usuario logístico SmartImport</field>
+        <field name="category_id" ref="smart_import.module_category_smart_import"/>
+    </record>
+
+    <!-- Grupo ventas -->
+    <record id="group_smart_import_sales" model="res.groups">
+        <field name="name">Usuario de ventas SmartImport</field>
+        <field name="category_id" ref="smart_import.module_category_smart_import"/>
+    </record>
+
+</odoo>

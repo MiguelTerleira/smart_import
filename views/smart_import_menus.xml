@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menú raíz -->
+    <menuitem
+        id="menu_smart_import_root"
+        name="SmartImport"
+        sequence="10"
+        groups="smart_import.group_smart_import_admin,smart_import.group_smart_import_logistics,smart_import.group_smart_import_sales"
+    />
+
+    <!-- Menú configuración -->
+    <menuitem
+        id="menu_smart_import_configuration"
+        name="Configuración"
+        parent="menu_smart_import_root"
+        sequence="10"
+        groups="smart_import.group_smart_import_admin"
+    />
+
+    <!-- Menú ubicaciones -->
+    <menuitem
+        id="menu_smart_import_logistic_locations"
+        name="Ubicaciones logísticas"
+        parent="menu_smart_import_configuration"
+        action="action_smart_import_logistic_location"
+        sequence="10"
+        groups="smart_import.group_smart_import_admin"
+    />
+
+</odoo>

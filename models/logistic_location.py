@@ -1,0 +1,85 @@
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
+
+
+class SmartImportLogisticLocation(models.Model):
+    _name = "smart.import.logistic.location"
+    _description = "Ubicación logística"
+    _order = "name"
+
+    name = fields.Char(
+        string="Nombre",
+        required=True,
+    )
+
+    code = fields.Char(
+        string="Código",
+        required=True,
+        copy=False,
+    )
+
+    location_type = fields.Selection(
+        selection=[
+            ("port", "Puerto"),
+            ("warehouse", "Almacén"),
+            ("store", "Punto de venta"),
+        ],
+        string="Tipo de ubicación",
+        required=True,
+        default="warehouse",
+    )
+
+    street = fields.Char(string="Dirección")
+    city = fields.Char(string="Ciudad")
+    zip = fields.Char(string="Código postal")
+    state_id = fields.Many2one("res.country.state", string="Provincia")
+    country_id = fields.Many2one("res.country", string="País")
+    description = fields.Text(string="Descripción")
+    active = fields.Boolean(string="Activa", default=True)
+
+    display_name_full = fields.Char(
+        string="Nombre completo",
+        compute="_compute_display_name_full",
+        store=False,
+    )
+
+    _sql_constraints = [
+        (
+            "unique_code",
+            "unique(code)",
+            "El código de la ubicación debe ser único.",
+        ),
+    ]
+
+    @api.depends("name", "location_type")
+    def _compute_display_name_full(self):
+        type_labels = {
+            "port": "Puerto",
+            "warehouse": "Almacén",
+            "store": "Punto de venta",
+        }
+        for record in self:
+            label = type_labels.get(record.location_type, "")
+            if label:
+                record.display_name_full = f"{record.name} ({label})"
+            else:
+                record.display_name_full = record.name or ""
+
+    @api.constrains("code")
+    def _check_code_not_empty(self):
+        for record in self:
+            if record.code and not record.code.strip():
+                raise ValidationError(_("El código de la ubicación no puede estar vacío."))
+
+    @api.constrains("name")
+    def _check_name_not_empty(self):
+        for record in self:
+            if record.name and not record.name.strip():
+                raise ValidationError(_("El nombre de la ubicación no puede estar vacío."))
+
+    def unlink(self):
+        """
+        De momento se permite eliminar únicamente si no se amplía la lógica.
+        Más adelante aquí comprobaremos si existen movimientos o stock asociados.
+        """
+        return super().unlink()

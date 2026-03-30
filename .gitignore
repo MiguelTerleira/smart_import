@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+
+# Entornos
+venv/
+.env
+
+# VSCode
+.vscode/
+
+# Odoo
+*.log
+*.sqlite3
+
+# Sistema
+.DS_Store
