@@ -28,4 +28,23 @@
         groups="smart_import.group_smart_import_admin"
     />
 
+    <!-- Menú operaciones -->
+    <menuitem
+        id="menu_smart_import_operations"
+        name="Operaciones"
+        parent="menu_smart_import_root"
+        sequence="20"
+        groups="smart_import.group_smart_import_admin,smart_import.group_smart_import_logistics"
+    />
+
+    <!-- Movimientos -->
+    <menuitem
+        id="menu_smart_import_movements"
+        name="Movimientos"
+        parent="menu_smart_import_operations"
+        action="smart_import.action_smart_import_movement"
+        sequence="10"
+        groups="smart_import.group_smart_import_admin,smart_import.group_smart_import_logistics"
+    />
+
 </odoo>

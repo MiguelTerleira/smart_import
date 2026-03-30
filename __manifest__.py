@@ -20,7 +20,10 @@ stock distribuido y trazabilidad en Odoo.
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",
+        "data/sequence.xml",
+
         "views/logistic_location_views.xml",
+        "views/movement_views.xml",
         "views/smart_import_menus.xml",
         
     ],

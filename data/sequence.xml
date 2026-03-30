@@ -1,0 +1,8 @@
+<odoo>
+    <record id="seq_smart_import_movement" model="ir.sequence">
+        <field name="name">Movimiento SmartImport</field>
+        <field name="code">smart.import.movement</field>
+        <field name="prefix">MOV/</field>
+        <field name="padding">4</field>
+    </record>
+</odoo>
