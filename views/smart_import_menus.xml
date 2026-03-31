@@ -47,4 +47,14 @@
         groups="smart_import.group_smart_import_admin,smart_import.group_smart_import_logistics"
     />
 
+    <!-- Stock -->
+    <menuitem
+        id="menu_smart_import_stock"
+        name="Stock"
+        parent="menu_smart_import_operations"
+        action="smart_import.action_smart_import_stock"
+        sequence="20"
+        groups="smart_import.group_smart_import_admin,smart_import.group_smart_import_logistics"
+    />
+
 </odoo>

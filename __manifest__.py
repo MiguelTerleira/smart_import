@@ -24,6 +24,7 @@ stock distribuido y trazabilidad en Odoo.
 
         "views/logistic_location_views.xml",
         "views/movement_views.xml",
+        "views/stock_views.xml",
         "views/smart_import_menus.xml",
         
     ],

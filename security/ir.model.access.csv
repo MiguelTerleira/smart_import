@@ -6,3 +6,7 @@ access_smart_import_location_sales,smart.import.location.sales,model_smart_impor
 access_smart_import_movement_admin,smart.import.movement.admin,model_smart_import_movement,smart_import.group_smart_import_admin,1,1,1,1
 access_smart_import_movement_logistics,smart.import.movement.logistics,model_smart_import_movement,smart_import.group_smart_import_logistics,1,1,1,1
 access_smart_import_movement_sales,smart.import.movement.sales,model_smart_import_movement,smart_import.group_smart_import_sales,1,0,0,0
+
+access_smart_import_stock_admin,smart.import.stock.admin,model_smart_import_stock,smart_import.group_smart_import_admin,1,1,1,1
+access_smart_import_stock_logistics,smart.import.stock.logistics,model_smart_import_stock,smart_import.group_smart_import_logistics,1,0,1,0
+access_smart_import_stock_sales,smart.import.stock.sales,model_smart_import_stock,smart_import.group_smart_import_sales,1,0,0,0

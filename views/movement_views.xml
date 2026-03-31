@@ -47,12 +47,16 @@
                         </group>
                     </group>
 
-                    <group>
+                   <group>
                         <group>
-                            <field name="location_origin_id"/>
+                            <field name="location_origin_id"
+                                invisible="movement_type == 'in'"
+                                required="movement_type in ['out', 'transfer']"/>
                         </group>
                         <group>
-                            <field name="location_destination_id"/>
+                            <field name="location_destination_id"
+                                invisible="movement_type == 'out'"
+                                required="movement_type in ['in', 'transfer']"/>
                         </group>
                     </group>
 
