@@ -57,4 +57,14 @@
         groups="smart_import.group_smart_import_admin,smart_import.group_smart_import_logistics"
     />
 
+    <!-- Solicitudes de transferencia -->
+    <menuitem
+        id="menu_transfer_requests"
+        name="Solicitudes de transferencia"
+        parent="menu_smart_import_operations"
+        action="smart_import.action_transfer_request"
+        sequence="20"
+        groups="smart_import.group_smart_import_logistics,smart_import.group_smart_import_admin"
+    />
+
 </odoo>

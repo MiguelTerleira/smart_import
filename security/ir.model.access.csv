@@ -10,3 +10,9 @@ access_smart_import_movement_sales,smart.import.movement.sales,model_smart_impor
 access_smart_import_stock_admin,smart.import.stock.admin,model_smart_import_stock,smart_import.group_smart_import_admin,1,1,1,1
 access_smart_import_stock_logistics,smart.import.stock.logistics,model_smart_import_stock,smart_import.group_smart_import_logistics,1,0,1,0
 access_smart_import_stock_sales,smart.import.stock.sales,model_smart_import_stock,smart_import.group_smart_import_sales,1,0,0,0
+
+access_transfer_request_admin,transfer.request.admin,model_smart_import_transfer_request,smart_import.group_smart_import_admin,1,1,1,1
+access_transfer_request_logistics,transfer.request.logistics,model_smart_import_transfer_request,smart_import.group_smart_import_logistics,1,1,1,0
+access_transfer_request_sales,transfer.request.sales,model_smart_import_transfer_request,smart_import.group_smart_import_sales,1,0,1,0
+
+access_stock_warning_wizard,stock.warning.wizard,model_smart_import_stock_warning_wizard,base.group_user,1,1,1,1

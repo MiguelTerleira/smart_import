@@ -33,6 +33,25 @@
         <field name="model">smart.import.movement</field>
         <field name="arch" type="xml">
             <form string="Movimiento de mercancía">
+
+                <!-- <header>
+                    <button name="action_open_stock_warning_wizard"
+                            type="object"
+                            string="Solicitar transferencia"
+                            class="btn-primary"
+                            invisible="movement_type != 'out'"/>
+                </header> -->
+
+                <header>
+                    <button name="action_confirm"
+                            type="object"
+                            string="Confirmar"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+
+                    <field name="state" widget="statusbar"/>
+                </header>
+
                 <sheet>
                     <group>
                         <group>

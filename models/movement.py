@@ -66,7 +66,18 @@ class SmartImportMovement(models.Model):
         string="Orden de venta",
     )
 
+    state = fields.Selection(
+        [
+            ("draft", "Borrador"),
+            ("done", "Confirmado"),
+        ],
+        string="Estado",
+        default="draft",
+    )
+
     notes = fields.Text(string="Observaciones")
+
+
 
  
     #restricciones para validar los datos antes de guardar el movimiento
@@ -115,10 +126,49 @@ class SmartImportMovement(models.Model):
 
             stock = self._compute_stock(product, origin)
 
-            if vals.get("quantity", 0) > stock:
-                raise ValidationError(_("No hay stock suficiente en la ubicación de origen."))
+           # if vals.get("quantity", 0) > stock:
+            #    raise ValidationError(_("No hay stock suficiente en la ubicación de origen."))
+        
+        # creacion automatica de stock al registrar movimientos
+        if movement_type == "in":
+            self._create_stock_if_not_exists(vals.get("product_id"), vals.get("location_destination_id"))
+
+        elif movement_type == "out":
+            self._create_stock_if_not_exists(vals.get("product_id"), vals.get("location_origin_id"))
+
+        elif movement_type == "transfer":
+            self._create_stock_if_not_exists(vals.get("product_id"), vals.get("location_origin_id"))
+            self._create_stock_if_not_exists(vals.get("product_id"), vals.get("location_destination_id"))
 
         return super().create(vals)
+    
+
+    #logica para validar salidas y transferencias
+    def action_confirm(self):
+        self.ensure_one()
+
+        # validar para salidas y transferencias
+        if self.movement_type in ["out", "transfer"]:
+
+            stock = self._compute_stock(self.product_id, self.location_origin_id)
+
+            if self.quantity > stock:
+                return {
+                    "type": "ir.actions.act_window",
+                    "name": _("Stock insuficiente"),
+                    "res_model": "smart.import.stock.warning.wizard",
+                    "view_mode": "form",
+                    "target": "new",
+                    "context": {
+                        "default_product_id": self.product_id.id,
+                        "default_quantity": self.quantity,
+                        "default_location_id": self.location_origin_id.id,
+                    }
+                }
+
+        # confirmar si todo es correcto
+        self.state = "done"
+
     
     #logica para calcular el stock en funcion del movimiento registrado
     def _compute_stock(self, product, location):
@@ -150,3 +200,36 @@ class SmartImportMovement(models.Model):
                     stock += move.quantity
 
         return stock
+
+    #logica para autocreacion de stock al registrar movimientos
+    def _create_stock_if_not_exists(self, product_id, location_id):
+        if not product_id or not location_id:
+            return
+
+        stock = self.env["smart.import.stock"].search([
+            ("product_id", "=", product_id),
+            ("location_id", "=", location_id)
+        ], limit=1)
+
+        if not stock:
+            self.env["smart.import.stock"].create({
+                "product_id": product_id,
+                "location_id": location_id,
+            })
+
+    #logica para abrir el asistente de solicitud de transferencia desde un movimiento de salida
+    def action_open_stock_warning_wizard(self):
+        self.ensure_one()
+
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("Solicitar transferencia"),
+            "res_model": "smart.import.stock.warning.wizard",
+            "view_mode": "form",
+            "target": "new",
+            "context": {
+                "default_product_id": self.product_id.id,
+                "default_quantity": self.quantity,
+                "default_location_id": self.location_origin_id.id,
+            },
+        }
