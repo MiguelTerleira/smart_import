@@ -177,6 +177,7 @@ class SmartImportMovement(models.Model):
 
         movements = self.search([
             ("product_id", "=", product.id),
+            ("state", "=", "done"),
             "|",
             ("location_origin_id", "=", location.id),
             ("location_destination_id", "=", location.id),

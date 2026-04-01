@@ -16,6 +16,7 @@ stock distribuido y trazabilidad en Odoo.
         "stock",
         "purchase",
         "sale_management",
+        "mail",
     ],
     "data": [
         "security/security.xml",
