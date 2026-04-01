@@ -35,6 +35,14 @@
         <field name="name">Histórico de movimientos</field>
         <field name="res_model">smart.import.movement</field>
         <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No hay movimientos registrados.
+            </p>
+            <p>
+                Cuando se registren entradas, transferencias o salidas de mercancía, aparecerán en este historial.
+            </p>
+        </field>
     </record>
 
 
@@ -53,6 +61,7 @@
                 <field name="location_origin_id"/>
                 <field name="location_destination_id"/>
                 <field name="user_id"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -136,6 +145,8 @@
                 <field name="product_id"/>
                 <field name="movement_type"/>
                 <field name="date"/>
+                <field name="location_origin_id"/>
+                <field name="location_destination_id"/>
 
                 <separator/>
 
@@ -147,6 +158,7 @@
                     <filter name="group_product" string="Producto" context="{'group_by':'product_id'}"/>
                     <filter name="group_type" string="Tipo" context="{'group_by':'movement_type'}"/>
                     <filter name="group_date" string="Fecha" context="{'group_by':'date'}"/>
+                    <filter name="group_user" string="Usuario" context="{'group_by':'user_id'}"/>
                 </group>
 
             </search>

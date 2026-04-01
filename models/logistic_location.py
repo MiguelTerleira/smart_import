@@ -29,6 +29,12 @@ class SmartImportLogisticLocation(models.Model):
         default="warehouse",
     )
 
+    stock_ids = fields.One2many(
+        "smart.import.stock",
+        "location_id",
+        string="Stock en ubicación",
+    )
+
     street = fields.Char(string="Dirección")
     city = fields.Char(string="Ciudad")
     zip = fields.Char(string="Código postal")
