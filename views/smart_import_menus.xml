@@ -10,50 +10,70 @@
     />
 
     <!-- Menú configuración -->
-    <menuitem
+   <!--  <menuitem
         id="menu_smart_import_configuration"
         name="Configuración"
         parent="menu_smart_import_root"
         sequence="10"
         groups="smart_import.group_smart_import_admin"
-    />
+    /> -->
 
     <!-- Menú ubicaciones -->
     <menuitem
         id="menu_smart_import_logistic_locations"
         name="Ubicaciones logísticas"
-        parent="menu_smart_import_configuration"
+        parent="menu_smart_import_root"
         action="action_smart_import_logistic_location"
         sequence="10"
         groups="smart_import.group_smart_import_admin"
     />
 
-    <!-- Menú operaciones -->
+    <!-- Menú movimientos -->
     <menuitem
-        id="menu_smart_import_operations"
-        name="Operaciones"
+        id="menu_smart_import_movements_parent"
+        name="Movimientos"
         parent="menu_smart_import_root"
         sequence="20"
         groups="smart_import.group_smart_import_admin,smart_import.group_smart_import_logistics"
     />
 
-    <!-- Movimientos -->
+    <!-- Entradas de mercancia -->
     <menuitem
-        id="menu_smart_import_movements"
-        name="Movimientos"
-        parent="menu_smart_import_operations"
-        action="smart_import.action_smart_import_movement"
+        id="menu_smart_import_entries"
+        name="Entradas de mercancía"
+        parent="menu_smart_import_movements_parent"
+        action="smart_import.action_smart_import_entries"
         sequence="10"
         groups="smart_import.group_smart_import_admin,smart_import.group_smart_import_logistics"
     />
 
-    <!-- Stock -->
+    <!-- Transferencias internas -->
     <menuitem
-        id="menu_smart_import_stock"
-        name="Stock"
-        parent="menu_smart_import_operations"
-        action="smart_import.action_smart_import_stock"
+        id="menu_smart_import_transfers"
+        name="Transferencias internas"
+        parent="menu_smart_import_movements_parent"
+        action="smart_import.action_smart_import_transfers"
         sequence="20"
+        groups="smart_import.group_smart_import_admin,smart_import.group_smart_import_logistics"
+    />  
+
+    <!-- Salidas de mercancia -->
+    <menuitem
+        id="menu_smart_import_outputs"
+        name="Salidas de mercancía"
+        parent="menu_smart_import_movements_parent"
+        action="smart_import.action_smart_import_outputs"
+        sequence="30"
+        groups="smart_import.group_smart_import_admin,smart_import.group_smart_import_logistics"
+    />
+
+    <!-- Histórico de movimientos -->
+    <menuitem
+        id="menu_smart_import_history"
+        name="Histórico de movimientos"
+        parent="menu_smart_import_movements_parent"
+        action="smart_import.action_smart_import_movement_history"
+        sequence="40"
         groups="smart_import.group_smart_import_admin,smart_import.group_smart_import_logistics"
     />
 
@@ -61,10 +81,22 @@
     <menuitem
         id="menu_transfer_requests"
         name="Solicitudes de transferencia"
-        parent="menu_smart_import_operations"
+        parent="menu_smart_import_root"
         action="smart_import.action_transfer_request"
-        sequence="20"
-        groups="smart_import.group_smart_import_logistics,smart_import.group_smart_import_admin"
+        sequence="30"
+        groups="smart_import.group_smart_import_logistics,smart_import.group_smart_import_admin,smart_import.group_smart_import_sales"
     />
+
+    <!-- Stock -->
+    <menuitem
+        id="menu_smart_import_stock"
+        name="Stock"
+        parent="menu_smart_import_root"
+        action="smart_import.action_smart_import_stock"
+        sequence="40"
+        groups="smart_import.group_smart_import_admin,smart_import.group_smart_import_logistics,smart_import.group_smart_import_sales"
+    />
+
+  
 
 </odoo>

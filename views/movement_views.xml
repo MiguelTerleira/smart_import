@@ -2,12 +2,42 @@
 <odoo>
 
     <!-- Acción -->
-    <record id="action_smart_import_movement" model="ir.actions.act_window">
+    <!-- <record id="action_smart_import_movement" model="ir.actions.act_window">
         <field name="name">Movimientos</field>
         <field name="res_model">smart.import.movement</field>
         <field name="view_mode">tree,form</field>
+    </record> -->
+    <record id="action_smart_import_entries" model="ir.actions.act_window">
+        <field name="name">Entradas de mercancía</field>
+        <field name="res_model">smart.import.movement</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('movement_type', '=', 'in')]</field>
+        <field name="context">{'default_movement_type': 'in'}</field>
     </record>
-    
+
+    <record id="action_smart_import_transfers" model="ir.actions.act_window">
+        <field name="name">Transferencias internas</field>
+        <field name="res_model">smart.import.movement</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('movement_type', '=', 'transfer')]</field>
+        <field name="context">{'default_movement_type': 'transfer'}</field>
+    </record>
+
+    <record id="action_smart_import_outputs" model="ir.actions.act_window">
+        <field name="name">Salidas de mercancía</field>
+        <field name="res_model">smart.import.movement</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('movement_type', '=', 'out')]</field>
+        <field name="context">{'default_movement_type': 'out'}</field>
+    </record>
+
+    <record id="action_smart_import_movement_history" model="ir.actions.act_window">
+        <field name="name">Histórico de movimientos</field>
+        <field name="res_model">smart.import.movement</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
 
     <!-- Vista lista -->
     <record id="view_smart_import_movement_tree" model="ir.ui.view">

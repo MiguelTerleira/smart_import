@@ -78,8 +78,26 @@ class SmartImportLogisticLocation(models.Model):
                 raise ValidationError(_("El nombre de la ubicación no puede estar vacío."))
 
     def unlink(self):
-        """
-        De momento se permite eliminar únicamente si no se amplía la lógica.
-        Más adelante aquí comprobaremos si existen movimientos o stock asociados.
-        """
+        movement_model = self.env["smart.import.movement"]
+        stock_model = self.env["smart.import.stock"]
+
+        for record in self:
+            movements_count = movement_model.search_count([
+                "|",
+                ("location_origin_id", "=", record.id),
+                ("location_destination_id", "=", record.id),
+            ])
+
+            stock_records = stock_model.search([
+                ("location_id", "=", record.id),
+            ])
+
+            stock_with_quantity = stock_records.filtered(lambda s: s.quantity > 0)
+
+            if movements_count > 0 or stock_with_quantity:
+                raise ValidationError(_(
+                    "No se puede eliminar la ubicación '%s' porque tiene movimientos "
+                    "de mercancía o stock asociado. Puede desactivarla en lugar de eliminarla."
+                ) % record.name)
+
         return super().unlink()
