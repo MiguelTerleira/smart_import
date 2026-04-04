@@ -8,6 +8,14 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+    <!-- Acción stock por producto -->
+    <record id="action_smart_import_stock_by_product" model="ir.actions.act_window">
+        <field name="name">Stock por producto</field>
+        <field name="res_model">smart.import.stock</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_group_product': 1}</field>
+    </record>
+
     <!-- Vista lista -->
     <record id="view_smart_import_stock_tree" model="ir.ui.view">
         <field name="name">smart.import.stock.tree</field>
@@ -35,6 +43,24 @@
                     </group>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+
+    <!-- search-->
+    <record id="view_smart_import_stock_search" model="ir.ui.view">
+        <field name="name">smart.import.stock.search</field>
+        <field name="model">smart.import.stock</field>
+        <field name="arch" type="xml">
+            <search string="Buscar stock">
+                <field name="product_id"/>
+                <field name="location_id"/>
+
+                <group expand="1" string="Agrupar por">
+                    <filter name="group_product" string="Producto" context="{'group_by':'product_id'}"/>
+                    <filter name="group_location" string="Ubicación" context="{'group_by':'location_id'}"/>
+                </group>
+            </search>
         </field>
     </record>
 
