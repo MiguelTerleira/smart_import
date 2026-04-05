@@ -35,6 +35,12 @@
         <field name="model">smart.import.stock</field>
         <field name="arch" type="xml">
             <form string="Stock">
+                <header>
+                    <button name="action_view_product_traceability"
+                            type="object"
+                            string="Ver trazabilidad"
+                            class="btn-primary"/>
+                </header>
                 <sheet>
                     <group>
                         <field name="product_id"/>

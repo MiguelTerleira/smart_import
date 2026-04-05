@@ -35,3 +35,19 @@ class SmartImportStock(models.Model):
                 )
             else:
                 rec.quantity = 0
+
+    # Acción para ver la trazabilidad del producto
+    def action_view_product_traceability(self):
+        self.ensure_one()
+
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Trazabilidad del producto",
+            "res_model": "smart.import.movement",
+            "view_mode": "tree,form",
+            "domain": [("product_id", "=", self.product_id.id)],
+            "context": {
+                "search_default_group_date": 0,
+                "default_product_id": self.product_id.id,
+            },
+        }
