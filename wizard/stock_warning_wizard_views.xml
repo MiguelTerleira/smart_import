@@ -6,9 +6,18 @@
         <field name="arch" type="xml">
             <form string="Falta de stock">
                 <group>
+                    <field name="sale_order_id" readonly="1"/>
                     <field name="product_id" readonly="1"/>
                     <field name="quantity" readonly="1"/>
+                    <field name="available_quantity" readonly="1"/>
                     <field name="location_id" readonly="1"/>
+                </group>
+
+                <group string="Stock alternativo">
+                    <field name="alternative_stock_info" widget="html" readonly="1"/>
+                </group>
+
+                <group string="Gestión de solicitud">
                     <field name="logistic_user_id"/>
                     <field name="email_to"/>
                 </group>
