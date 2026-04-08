@@ -1,6 +1,7 @@
 from odoo import models, fields, _
 from odoo.exceptions import ValidationError
 
+
 class SaleOrderInherit(models.Model):
     _inherit = "sale.order"
 
@@ -47,4 +48,30 @@ class SaleOrderInherit(models.Model):
                         },
                     }
 
-        return super().action_confirm()
+        # confirmar venta en Odoo
+        result = super().action_confirm()
+
+        # CU13: registrar salidas de mercancía asociadas a la venta
+        for order in self:
+            for line in order.order_line:
+                if not line.product_id:
+                    continue
+
+                if line.product_id.type not in ["product", "consu"]:
+                    continue
+
+                if line.product_uom_qty <= 0:
+                    continue
+
+                movement = movement_model.create({
+                    "product_id": line.product_id.id,
+                    "quantity": line.product_uom_qty,
+                    "movement_type": "out",
+                    "location_origin_id": order.smart_import_location_id.id,
+                    "sale_id": order.id,
+                    "notes": _("Salida generada automáticamente desde el pedido de venta %s") % order.name,
+                })
+
+                movement.action_confirm()
+
+        return result

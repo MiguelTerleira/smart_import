@@ -60,6 +60,7 @@
                 <field name="quantity"/>
                 <field name="location_origin_id"/>
                 <field name="location_destination_id"/>
+                <field name="sale_id"/>
                 <field name="user_id"/>
                 <field name="state"/>
             </tree>
