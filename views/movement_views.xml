@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Acción -->
-    <!-- <record id="action_smart_import_movement" model="ir.actions.act_window">
-        <field name="name">Movimientos</field>
-        <field name="res_model">smart.import.movement</field>
-        <field name="view_mode">tree,form</field>
-    </record> -->
+    <!-- acciones -->
     <record id="action_smart_import_entries" model="ir.actions.act_window">
         <field name="name">Entradas de mercancía</field>
         <field name="res_model">smart.import.movement</field>
@@ -45,21 +40,53 @@
         </field>
     </record>
 
-
-
-    <!-- Vista lista -->
-    <record id="view_smart_import_movement_tree" model="ir.ui.view">
-        <field name="name">smart.import.movement.tree</field>
+    <!-- vista lista entradas -->
+    <record id="view_smart_import_movement_entry_tree" model="ir.ui.view">
+        <field name="name">smart.import.movement.entry.tree</field>
         <field name="model">smart.import.movement</field>
         <field name="arch" type="xml">
-            <tree string="Movimientos">
+            <tree string="Entradas de mercancía">
                 <field name="name"/>
                 <field name="date"/>
-                <field name="movement_type"/>
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <field name="location_destination_id"/>
+                <field name="purchase_id"/>
+                <field name="user_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- vista lista transferencias -->
+    <record id="view_smart_import_movement_transfer_tree" model="ir.ui.view">
+        <field name="name">smart.import.movement.transfer.tree</field>
+        <field name="model">smart.import.movement</field>
+        <field name="arch" type="xml">
+            <tree string="Transferencias internas">
+                <field name="name"/>
+                <field name="date"/>
                 <field name="product_id"/>
                 <field name="quantity"/>
                 <field name="location_origin_id"/>
                 <field name="location_destination_id"/>
+                <field name="user_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- vista lista salidas -->
+    <record id="view_smart_import_movement_output_tree" model="ir.ui.view">
+        <field name="name">smart.import.movement.output.tree</field>
+        <field name="model">smart.import.movement</field>
+        <field name="arch" type="xml">
+            <tree string="Salidas de mercancía">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <field name="location_origin_id"/>
                 <field name="sale_id"/>
                 <field name="user_id"/>
                 <field name="state"/>
@@ -67,21 +94,33 @@
         </field>
     </record>
 
-    <!-- Vista formulario -->
+    <!-- vista lista histórico -->
+    <record id="view_smart_import_movement_history_tree" model="ir.ui.view">
+        <field name="name">smart.import.movement.history.tree</field>
+        <field name="model">smart.import.movement</field>
+        <field name="arch" type="xml">
+            <tree string="Histórico de movimientos">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="movement_type"/>
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <field name="location_origin_id"/>
+                <field name="location_destination_id"/>
+                <field name="purchase_id"/>
+                <field name="sale_id"/>
+                <field name="user_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- vista formulario -->
     <record id="view_smart_import_movement_form" model="ir.ui.view">
         <field name="name">smart.import.movement.form</field>
         <field name="model">smart.import.movement</field>
         <field name="arch" type="xml">
             <form string="Movimiento de mercancía">
-
-                <!-- <header>
-                    <button name="action_open_stock_warning_wizard"
-                            type="object"
-                            string="Solicitar transferencia"
-                            class="btn-primary"
-                            invisible="movement_type != 'out'"/>
-                </header> -->
-
                 <header>
                     <button name="action_confirm"
                             type="object"
@@ -106,16 +145,16 @@
                         </group>
                     </group>
 
-                   <group>
+                    <group>
                         <group>
                             <field name="location_origin_id"
-                                invisible="movement_type == 'in'"
-                                required="movement_type in ['out', 'transfer']"/>
+                                   invisible="movement_type == 'in'"
+                                   required="movement_type in ['out', 'transfer']"/>
                         </group>
                         <group>
                             <field name="location_destination_id"
-                                invisible="movement_type == 'out'"
-                                required="movement_type in ['in', 'transfer']"/>
+                                   invisible="movement_type == 'out'"
+                                   required="movement_type in ['in', 'transfer']"/>
                         </group>
                     </group>
 
@@ -135,19 +174,19 @@
         </field>
     </record>
 
-    <!-- Vista búsqueda -->
+    <!-- vista búsqueda -->
     <record id="view_smart_import_movement_search" model="ir.ui.view">
         <field name="name">smart.import.movement.search</field>
         <field name="model">smart.import.movement</field>
         <field name="arch" type="xml">
             <search string="Buscar movimientos">
-
                 <field name="name"/>
                 <field name="product_id"/>
                 <field name="movement_type"/>
                 <field name="date"/>
                 <field name="location_origin_id"/>
                 <field name="location_destination_id"/>
+                <field name="user_id"/>
 
                 <separator/>
 
@@ -161,9 +200,41 @@
                     <filter name="group_date" string="Fecha" context="{'group_by':'date'}"/>
                     <filter name="group_user" string="Usuario" context="{'group_by':'user_id'}"/>
                 </group>
-
             </search>
         </field>
+    </record>
+
+    <!-- enlaces a acción de vistas tree -->
+    <!-- entradas -->
+    <record id="action_smart_import_entries_tree_link" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_smart_import_movement_entry_tree"/>
+        <field name="act_window_id" ref="action_smart_import_entries"/>
+    </record>
+
+    <!-- transferencias -->
+    <record id="action_smart_import_transfers_tree_link" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_smart_import_movement_transfer_tree"/>
+        <field name="act_window_id" ref="action_smart_import_transfers"/>
+    </record>
+
+    <!-- salidas -->
+    <record id="action_smart_import_outputs_tree_link" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_smart_import_movement_output_tree"/>
+        <field name="act_window_id" ref="action_smart_import_outputs"/>
+    </record>
+
+    <!-- histórico -->
+    <record id="action_smart_import_history_tree_link" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_smart_import_movement_history_tree"/>
+        <field name="act_window_id" ref="action_smart_import_movement_history"/>
     </record>
 
 </odoo>

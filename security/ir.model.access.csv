@@ -16,3 +16,5 @@ access_transfer_request_logistics,transfer.request.logistics,model_smart_import_
 access_transfer_request_sales,transfer.request.sales,model_smart_import_transfer_request,smart_import.group_smart_import_sales,1,0,1,0
 
 access_stock_warning_wizard,stock.warning.wizard,model_smart_import_stock_warning_wizard,base.group_user,1,1,1,1
+
+access_purchase_entry_wizard,purchase.entry.wizard,model_smart_import_purchase_entry_wizard,base.group_user,1,1,1,1

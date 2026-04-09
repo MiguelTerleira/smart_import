@@ -28,10 +28,12 @@ stock distribuido y trazabilidad en Odoo.
         "views/stock_views.xml",
         "views/transfer_request_views.xml",
         "views/sale_order_inherit_views.xml",
+        "views/purchase_order_inherit_views.xml",
         "views/smart_import_menus.xml",
         
 
         "wizard/stock_warning_wizard_views.xml",
+        "wizard/purchase_entry_wizard_views.xml",
         
     ],
     "application": True,
