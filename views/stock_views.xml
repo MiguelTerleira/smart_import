@@ -16,6 +16,7 @@
         <field name="context">{'search_default_group_product': 1}</field>
     </record>
 
+
     <!-- Vista lista -->
     <record id="view_smart_import_stock_tree" model="ir.ui.view">
         <field name="name">smart.import.stock.tree</field>
@@ -69,5 +70,7 @@
             </search>
         </field>
     </record>
+
+  
 
 </odoo>

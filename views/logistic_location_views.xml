@@ -4,25 +4,66 @@
     <record id="action_smart_import_logistic_location" model="ir.actions.act_window">
         <field name="name">Ubicaciones logísticas</field>
         <field name="res_model">smart.import.logistic.location</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">kanban,tree,form</field>
         <field name="context">{'active_test': False}</field>
     </record>
 
-    <!-- Vista lista -->
-    <record id="view_smart_import_logistic_location_tree" model="ir.ui.view">
-        <field name="name">smart.import.logistic.location.tree</field>
+    <!-- Vista kanban -->
+    <record id="view_smart_import_logistic_location_kanban" model="ir.ui.view">
+        <field name="name">smart.import.logistic.location.kanban</field>
         <field name="model">smart.import.logistic.location</field>
         <field name="arch" type="xml">
-            <tree string="Ubicaciones logísticas">
+            <kanban class="o_kanban_mobile">
                 <field name="name"/>
                 <field name="code"/>
                 <field name="location_type"/>
                 <field name="city"/>
                 <field name="country_id"/>
                 <field name="active"/>
-            </tree>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record">
+                            <div class="p-3">
+                                <div class="mb-2">
+                                    <strong class="fs-5">
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+
+                                <div class="mb-2">
+                                    <t t-if="record.location_type.raw_value == 'port'">
+                                        <span class="badge rounded-pill text-bg-info">Puerto</span>
+                                    </t>
+                                    <t t-if="record.location_type.raw_value == 'warehouse'">
+                                        <span class="badge rounded-pill text-bg-primary">Almacén</span>
+                                    </t>
+                                    <t t-if="record.location_type.raw_value == 'store'">
+                                        <span class="badge rounded-pill text-bg-warning">Punto de venta</span>
+                                    </t>
+                                </div>
+
+                                <div><strong>Código:</strong> <field name="code"/></div>
+                                <div><strong>Ciudad:</strong> <field name="city"/></div>
+                                <div><strong>País:</strong> <field name="country_id"/></div>
+
+                                <div class="mt-2">
+                                    <strong>Estado:</strong>
+                                    <t t-if="record.active.raw_value">
+                                        <span class="badge rounded-pill text-bg-success">Activa</span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="badge rounded-pill text-bg-secondary">Inactiva</span>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
         </field>
     </record>
+
+
     <!-- Vista formulario -->
     <record id="view_smart_import_logistic_location_form" model="ir.ui.view">
         <field name="name">smart.import.logistic.location.form</field>
@@ -47,9 +88,6 @@
                     </group>
 
                     <notebook>
-                        <page string="Descripción">
-                            <field name="description"/>
-                        </page>
                         <page string="Stock">
                             <field name="stock_ids" readonly="1">
                                 <tree>
@@ -57,6 +95,9 @@
                                     <field name="quantity"/>
                                 </tree>
                             </field>
+                        </page>
+                        <page string="Descripción">
+                            <field name="description"/>
                         </page>
                     </notebook>
                 </sheet>

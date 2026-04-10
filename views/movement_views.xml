@@ -29,7 +29,7 @@
     <record id="action_smart_import_movement_history" model="ir.actions.act_window">
         <field name="name">Histórico de movimientos</field>
         <field name="res_model">smart.import.movement</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">graph,tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 No hay movimientos registrados.
@@ -112,6 +112,19 @@
                 <field name="user_id"/>
                 <field name="state"/>
             </tree>
+        </field>
+    </record>
+
+    <!-- Vista gráfica: histórico-->
+    <record id="view_smart_import_movement_graph" model="ir.ui.view">
+        <field name="name">smart.import.movement.graph</field>
+        <field name="model">smart.import.movement</field>
+        <field name="arch" type="xml">
+            <graph string="Histórico de movimientos" type="bar">
+                <field name="date" interval="month"/>
+                <field name="quantity" type="measure"/>
+                <field name="movement_type"/>
+            </graph>
         </field>
     </record>
 
@@ -229,9 +242,17 @@
         <field name="act_window_id" ref="action_smart_import_outputs"/>
     </record>
 
-    <!-- histórico -->
-    <record id="action_smart_import_history_tree_link" model="ir.actions.act_window.view">
+    <!-- historicco graph -->
+    <record id="action_smart_import_history_graph_link" model="ir.actions.act_window.view">
         <field name="sequence" eval="1"/>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="view_smart_import_movement_graph"/>
+        <field name="act_window_id" ref="action_smart_import_movement_history"/>
+    </record>
+
+    <!-- histórico tree-->
+    <record id="action_smart_import_history_tree_link" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="view_smart_import_movement_history_tree"/>
         <field name="act_window_id" ref="action_smart_import_movement_history"/>
