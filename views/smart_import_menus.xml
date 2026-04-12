@@ -25,7 +25,7 @@
         parent="menu_smart_import_root"
         action="action_smart_import_logistic_location"
         sequence="10"
-        groups="smart_import.group_smart_import_admin"
+        groups="smart_import.group_smart_import_admin,smart_import.group_smart_import_logistics"
     />
 
     <!-- Menú movimientos -->

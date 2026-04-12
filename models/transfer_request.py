@@ -6,6 +6,7 @@ class SmartImportTransferRequest(models.Model):
     _name = "smart.import.transfer.request"
     _description = "Solicitud de transferencia"
     _inherit = ["mail.thread", "mail.activity.mixin"]
+    _rec_name = "product_id"
 
     product_id = fields.Many2one(
         "product.product",
@@ -29,6 +30,12 @@ class SmartImportTransferRequest(models.Model):
     location_destination_id = fields.Many2one(
         "smart.import.logistic.location",
         string="Ubicación destino",
+        tracking=True,
+    )
+
+    sale_order_id = fields.Many2one(
+        "sale.order",
+        string="Pedido de venta",
         tracking=True,
     )
 

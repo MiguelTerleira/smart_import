@@ -4,6 +4,8 @@ from odoo import api, fields, models
 class SmartImportStock(models.Model):
     _name = "smart.import.stock"
     _description = "Stock por ubicación"
+    _rec_name = "product_id"
+
 
     product_id = fields.Many2one(
         "product.product",

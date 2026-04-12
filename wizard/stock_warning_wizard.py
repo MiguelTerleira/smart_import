@@ -111,6 +111,7 @@ class StockWarningWizard(models.TransientModel):
             "product_id": self.product_id.id,
             "quantity": self.quantity,
             "location_destination_id": self.location_id.id,
+            "sale_order_id": self.sale_order_id.id,
         }
 
         if self.suggested_origin_location_id:

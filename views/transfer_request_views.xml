@@ -86,7 +86,8 @@
 
                     <group>
                         <field name="location_origin_id" string="Ubicación de suministro"/>
-                        <field name="location_destination_id" string="Ubicación solicitante"/>
+                        <field name="sale_order_id" invisible="1"/>
+                        <field name="location_destination_id" string="Ubicación solicitante"  readonly="sale_order_id"/>
                     </group>
                 </sheet>
                 <div class="oe_chatter">
