@@ -76,7 +76,7 @@
                             <field name="name"/>
                             <field name="code"/>
                             <field name="location_type"/>
-                            <field name="active"/>
+                            <field name="active" widget="boolean_toggle"/>
                         </group>
                         <group>
                             <field name="street"/>

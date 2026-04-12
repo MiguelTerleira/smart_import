@@ -16,8 +16,10 @@
                 <group string="Stock alternativo">
                     <field name="alternative_stock_info" widget="html" readonly="1"/>
                 </group>
+                
 
                 <group string="Gestión de solicitud">
+                    <field name="suggested_origin_location_id"/>
                     <field name="logistic_user_id"/>
                     <field name="email_to"/>
                 </group>

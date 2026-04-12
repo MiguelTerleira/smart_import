@@ -45,23 +45,26 @@ class SmartImportTransferRequest(models.Model):
     def action_execute_transfer(self):
         self.ensure_one()
 
+        if not self.location_origin_id:
+            raise ValidationError("Debe seleccionar una ubicación de origen.")
+
         if not self.location_destination_id:
-            raise ValidationError("Debe seleccionar una ubicación destino.")
+            raise ValidationError("Debe existir una ubicación de destino.")
 
         stock = self.env["smart.import.movement"]._compute_stock(
             self.product_id,
-            self.location_destination_id
+            self.location_origin_id
         )
 
         if self.quantity > stock:
-            raise ValidationError("No hay stock suficiente en la ubicación seleccionada.")
+            raise ValidationError("No hay stock suficiente en la ubicación de origen seleccionada.")
 
         movement = self.env["smart.import.movement"].create({
             "product_id": self.product_id.id,
             "quantity": self.quantity,
             "movement_type": "transfer",
-            "location_origin_id": self.location_destination_id.id,
-            "location_destination_id": self.location_origin_id.id,
+            "location_origin_id": self.location_origin_id.id,
+            "location_destination_id": self.location_destination_id.id,
         })
 
         movement.action_confirm()

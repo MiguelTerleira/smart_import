@@ -30,8 +30,8 @@
 
                             <div class="mt8">
                                 <div><strong>Cantidad:</strong> <field name="quantity"/></div>
-                                <div><strong>Ubicación solicitante:</strong> <field name="location_origin_id"/></div>
-                                <div><strong>Ubicación de suministro:</strong> <field name="location_destination_id"/></div>
+                                    <div><strong>Ubicación solicitante:</strong> <field name="location_destination_id"/></div>
+                                    <div><strong>Ubicación de suministro:</strong> <field name="location_origin_id"/></div>
                                 <div class="mt8">
                                     <strong>Estado:</strong>
                                     <t t-if="record.state.raw_value == 'pending'">
@@ -57,8 +57,8 @@
             <tree>
                 <field name="product_id"/>
                 <field name="quantity"/>
-                <field name="location_origin_id"/>
-                <field name="location_destination_id"/>
+                <field name="location_destination_id" string="Ubicación solicitante"/>
+                <field name="location_origin_id" string="Ubicación de suministro"/>
                 <field name="state"/>
             </tree>
         </field>
@@ -85,8 +85,8 @@
                     </group>
 
                     <group>
-                        <field name="location_origin_id"/>
-                        <field name="location_destination_id"/>
+                        <field name="location_origin_id" string="Ubicación de suministro"/>
+                        <field name="location_destination_id" string="Ubicación solicitante"/>
                     </group>
                 </sheet>
                 <div class="oe_chatter">

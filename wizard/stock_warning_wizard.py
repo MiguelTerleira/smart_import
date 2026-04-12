@@ -37,6 +37,12 @@ class StockWarningWizard(models.TransientModel):
         readonly=True,
     )
 
+    suggested_origin_location_id = fields.Many2one(
+        "smart.import.logistic.location",
+        string="Ubicación de suministro propuesta",
+        domain="[('active', '=', True), ('id', '!=', location_id)]",
+    )
+
     @api.depends("product_id", "location_id")
     def _compute_alternative_stock_info(self):
         movement_model = self.env["smart.import.movement"]
@@ -73,14 +79,44 @@ class StockWarningWizard(models.TransientModel):
                     "<p>No existe stock disponible del producto en otras ubicaciones activas.</p>"
                 )
 
+
+    def _onchange_suggested_origin_location_id(self):
+        if not self.product_id:
+            return {"domain": {"suggested_origin_location_id": [("id", "=", False)]}}
+
+        movement_model = self.env["smart.import.movement"]
+        locations = self.env["smart.import.logistic.location"].search([
+            ("active", "=", True),
+            ("id", "!=", self.location_id.id),
+        ])
+
+        valid_location_ids = []
+        for location in locations:
+            qty = movement_model._compute_stock(self.product_id, location)
+            if qty > 0:
+                valid_location_ids.append(location.id)
+
+        return {
+            "domain": {
+                "suggested_origin_location_id": [("id", "in", valid_location_ids)]
+            }
+        }
+
+
+    
     def action_create_transfer_request(self):
         self.ensure_one()
 
-        request = self.env["smart.import.transfer.request"].create({
+        request_vals = {
             "product_id": self.product_id.id,
             "quantity": self.quantity,
-            "location_origin_id": self.location_id.id,
-        })
+            "location_destination_id": self.location_id.id,
+        }
+
+        if self.suggested_origin_location_id:
+            request_vals["location_origin_id"] = self.suggested_origin_location_id.id
+
+        request = self.env["smart.import.transfer.request"].create(request_vals)
 
         # mensaje interno en la solicitud
         request.message_post(
@@ -101,8 +137,15 @@ class StockWarningWizard(models.TransientModel):
                 ) % self.sale_order_id.name
             )
 
+        # mensaje adicional si ventas ha propuesto una ubicación de suministro
+        if self.suggested_origin_location_id:
+            request.message_post(
+                body=_(
+                    "Se ha propuesto la ubicación de suministro '%s' para atender la solicitud."
+                ) % self.suggested_origin_location_id.display_name
+            )
 
-        # actividad para el usuari logístico
+        # actividad para el usuario logístico
         if self.logistic_user_id:
             request.activity_schedule(
                 "mail.mail_activity_data_todo",
@@ -119,23 +162,33 @@ class StockWarningWizard(models.TransientModel):
 
         # mail opcional
         if self.email_to:
+            body_html = _(
+                "<p>Se ha generado una solicitud de transferencia de stock.</p>"
+                "<ul>"
+                "<li><strong>Producto:</strong> %s</li>"
+                "<li><strong>Cantidad solicitada:</strong> %s</li>"
+                "<li><strong>Cantidad disponible:</strong> %s</li>"
+                "<li><strong>Ubicación sin stock:</strong> %s</li>"
+            ) % (
+                self.product_id.display_name,
+                self.quantity,
+                self.available_quantity,
+                self.location_id.display_name,
+            )
+
+            if self.suggested_origin_location_id:
+                body_html += _(
+                    "<li><strong>Ubicación de suministro propuesta:</strong> %s</li>"
+                ) % self.suggested_origin_location_id.display_name
+
+            body_html += _(
+                "</ul>"
+                "<p>Acceda a SmartImport para revisar y procesar la solicitud.</p>"
+            )
+
             mail_values = {
                 "subject": _("Solicitud de transferencia de stock"),
-                "body_html": _(
-                    "<p>Se ha generado una solicitud de transferencia de stock.</p>"
-                    "<ul>"
-                    "<li><strong>Producto:</strong> %s</li>"
-                    "<li><strong>Cantidad solicitada:</strong> %s</li>"
-                    "<li><strong>Cantidad disponible:</strong> %s</li>"
-                    "<li><strong>Ubicación sin stock:</strong> %s</li>"
-                    "</ul>"
-                    "<p>Acceda a SmartImport para revisar y procesar la solicitud.</p>"
-                ) % (
-                    self.product_id.display_name,
-                    self.quantity,
-                    self.available_quantity,
-                    self.location_id.display_name,
-                ),
+                "body_html": body_html,
                 "email_to": self.email_to,
             }
             self.env["mail.mail"].create(mail_values).send()
