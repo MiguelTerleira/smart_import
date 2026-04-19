@@ -7,6 +7,7 @@
         name="SmartImport"
         sequence="10"
         groups="smart_import.group_smart_import_admin,smart_import.group_smart_import_logistics,smart_import.group_smart_import_sales"
+        web_icon="smart_import,static/description/icon.png"
     />
 
     <!-- Menú configuración -->
