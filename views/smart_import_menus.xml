@@ -10,14 +10,6 @@
         web_icon="smart_import,static/description/icon.png"
     />
 
-    <!-- Menú configuración -->
-   <!--  <menuitem
-        id="menu_smart_import_configuration"
-        name="Configuración"
-        parent="menu_smart_import_root"
-        sequence="10"
-        groups="smart_import.group_smart_import_admin"
-    /> -->
 
     <!-- Menú ubicaciones logisticas-->
     <menuitem

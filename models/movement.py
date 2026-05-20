@@ -125,9 +125,6 @@ class SmartImportMovement(models.Model):
             origin = self.env["smart.import.logistic.location"].browse(vals.get("location_origin_id"))
 
             stock = self._compute_stock(product, origin)
-
-           # if vals.get("quantity", 0) > stock:
-            #    raise ValidationError(_("No hay stock suficiente en la ubicación de origen."))
         
         # creacion automatica de stock al registrar movimientos
         if movement_type == "in":

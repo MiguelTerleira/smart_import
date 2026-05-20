@@ -118,7 +118,6 @@
 
                 <separator/>
 
-                <!--<filter name="filter_all" string="Todas" domain="[]"/>(pte revisar, no funciona)-->
                 <filter name="filter_active" string="Activas" domain="[('active','=',True)]"/>
                 <filter name="filter_inactive" string="Inactivas" domain="[('active','=',False)]"/>
 
